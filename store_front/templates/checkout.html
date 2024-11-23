@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cart_count_bloc %}
+    {{ cart_items }}
+{% endblock %}
+{% block content %}
+<!-- HEADING-BANNER START -->
+<div class="heading-banner-area overlay-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="heading-banner">
+                    <div class="heading-banner-title">
+                        <h2>check out</h2>
+                    </div>
+                    <div class="breadcumbs pb-15">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li>check out</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- HEADING-BANNER END -->
+<!-- CHECKOUT-AREA START -->
+<div class="shopping-cart-area  pt-80 pb-80">
+    <div class="container">	
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shopping-cart">
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!-- check-out start -->
+                        <div class="tab-pane active" id="check-out">
+                            <div class="shop-cart-table check-out-wrap">
+                                <form action="#" method="post" id="payment-form">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                    
+                                        <div class="col-md-6">
+                                            <div class="billing-details pr-20">
+                                                <h4 class="title-1 title-border text-uppercase mb-30">billing details</h4>
+                                                <textarea class="custom-textarea" placeholder="Your address here..." name="billing_address" required ></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-xs-30">
+                                            <div class="billing-details pl-20">
+                                                <h4 class="title-1 title-border text-uppercase mb-30">ship to different address</h4>
+                                                <textarea class="custom-textarea" placeholder="Your address here..." name="shipping_address" required ></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="our-order payment-details mt-60 pr-20">
+                                                <h4 class="title-1 title-border text-uppercase mb-30">our order</h4>
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th><strong>Product</strong></th>
+                                                            <th class="text-end"><strong>Total</strong></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for product in products %}
+                                                            {% with final_price=product.final_price %}
+                                                                <tr>
+                                                                    <td>{{ product.name }}  x 1</td>
+                                                                    <td class="text-end">₹ {{ final_price }}</td>
+                                                                </tr>
+                                                            {% endwith %}
+                                                        {% endfor %}
+                                                        <tr>
+                                                            <td>Cart Subtotal</td>
+                                                            <td class="text-end">₹ {{ cart_pricing.total }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Platform Charges</td>
+                                                            <td class="text-end">₹ {{ cart_pricing.commission }}</td>
+                                                        </tr>
+                                                        <!-- <tr>
+                                                            <td>GST</td>
+                                                            <td class="text-end">₹ {{ cart_pricing.gst }}</td>
+                                                        </tr> -->
+                                                        <tr>
+                                                            <td>Order Total</td>
+                                                            <td class="text-end">₹ {{ cart_pricing.total_amount }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- payment-method -->
+                                        <div class="col-md-6">
+                                            <div class="payment-method mt-60  pl-20">
+                                                <h4 class="title-1 title-border text-uppercase mb-30">payment method</h4>
+                                                <div class="payment-accordion">
+                                                    <!-- Accordion start -->
+                                                    <h3 class="payment-accordion-toggle active">Payment</h3>
+                                                    <div class="payment-content default">
+                                                        <p>online payment streamlines transactions, offering convenience and security for both customers and merchants.</p>
+                                                        <input type="radio" required name="payment_mode" value="stripe" id="stripe" checked="checked" />
+                                                        <label for="stripe">Online Payment</label></br></br>
+                                                        <input type="radio" name="payment_mode" id="cod" value="cod" required />
+                                                        <label for="cod">Cash On Delivery</label></br></br>
+                                                        <button class="button-one submit-button mt-15" data-text="place order" type="submit">place order</button>
+                                                        <div id="stripe-button-container"></div></br></br>
+                                                        <img src="{% static 'store_front/img/payment/1.png' %}" alt="" />
+                                                        <img src="{% static 'store_front/img/payment/2.png' %}" alt="" />
+                                                        <img src="{% static 'store_front/img/payment/3.png' %}" alt="" />
+                                                        <img src="{% static 'store_front/img/payment/4.png' %}" alt="" />
+                                                    </div>
+                                                    <!-- Accordion end -->
+                                                    <!-- Accordion start  -->
+                                                    <h3 class="payment-accordion-toggle">Cash on Delivery</h3>
+                                                    <div class="payment-content">
+                                                        <p>Cash on delivery (COD) is a payment method commonly used in e-commerce, allowing customers to pay for their purchases in cash upon delivery of the goods.</p>
+                                                        
+                                                    </div>
+                                                    <!-- Accordion end -->
+                                                    
+                                                </div>															
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- check-out end -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CHECKOUT-AREA END -->
+{% endblock %}

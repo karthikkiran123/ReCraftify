@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cart_count_bloc %}
+    {{ cart_items }}
+{% endblock %}
+{% block content %}
+<!-- CHECKOUT-AREA START -->
+<div class="shopping-cart-area  pt-80 pb-80">
+    <div class="container">	
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shopping-cart">
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!-- order-complete start -->
+									<div class="tab-pane active" id="order-complete">
+                                        <div class="thank-recieve bg-white mb-30">
+                                            <p>Thank you. Your order has been received.</p>
+                                        </div>
+                                        <div class="order-info bg-white text-center clearfix mb-30">
+                                            <div class="single-order-info">
+                                                <h4 class="title-1 text-uppercase text-light-black mb-0">order no</h4>
+                                                <p class="text-uppercase text-light-black mb-0"><strong>{{ order.order_number }}</strong></p>
+                                            </div>
+                                            <div class="single-order-info">
+                                                <h4 class="title-1 text-uppercase text-light-black mb-0">Date</h4>
+                                                <p class="text-uppercase text-light-black mb-0"><strong>{{ order.created_at }}</strong></p>
+                                            </div>
+                                            <div class="single-order-info">
+                                                <h4 class="title-1 text-uppercase text-light-black mb-0">Total</h4>
+                                                <p class="text-uppercase text-light-black mb-0"><strong>₹ {{ order.total_amount }}</strong></p>
+                                            </div>
+                                            <div class="single-order-info">
+                                                <h4 class="title-1 text-uppercase text-light-black mb-0">payment method</h4>
+                                                <p class="text-uppercase text-light-black mb-0"><a href="#"><strong>{{ order.payment_mode }}</strong></a></p>
+                                            </div>
+                                        </div>
+                                        <div class="shop-cart-table check-out-wrap">
+                                            <div class="row">
+                                                <div style="text-align: center;">
+                                                    Your Order will arrive shortly</br>
+                                                    Thank You for shopping with us</br>
+                                                    <a href="/"><button class="button-one submit-button mt-15" data-text="Continue Shopping">Continue Shopping</button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+									</div>
+									<!-- order-complete end -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CHECKOUT-AREA END -->
+{% endblock %}

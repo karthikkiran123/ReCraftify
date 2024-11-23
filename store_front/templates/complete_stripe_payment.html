@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Payment</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Stripe Payment</h1>
+        <table border="1">
+            <tr>
+                <td>Order Id</td>
+                <td>{{ order.order_number }}</td>
+            </tr>
+            <tr>
+                <td>Customer Name</td>
+                <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td>{{ order.total_amount }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="{{key}}"
+                            data-description="Payment Gateway"
+                            data-locale="auto">
+                        </script>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>

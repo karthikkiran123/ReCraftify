@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cart_count_bloc %}
+    {{ cart_items }}
+{% endblock %}
+{% block content %}
+	<!-- HEADING-BANNER START -->
+	<div class="heading-banner-area overlay-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="heading-banner">
+						<div class="heading-banner-title">
+							<h2>Registration</h2>
+						</div>
+						<div class="breadcumbs pb-15">
+							<ul>
+								<li><a href="/">Home</a></li>
+								<li>Registration</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- HEADING-BANNER END -->
+	<!-- SHOPPING-CART-AREA START -->
+	<div class="login-area  pt-80 pb-80">
+		<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="customer-login text-left">
+							<h4 class="title-1 title-border text-uppercase mb-30">Registered customers</h4>
+							<p class="text-gray">If you have an account with us, Please login!</p>
+							<form method="post">
+								{% csrf_token %}
+								<input type="text" placeholder="Email here..." name="email">
+								<input type="password" placeholder="Password" name="password">
+								<!-- <p><a href="#" class="text-gray">Forget your password?</a></p> -->
+								<p>
+									{% if messages %}
+										{% for message in messages %}
+											{{ message }}
+										{% endfor %}
+									{% endif %}
+								</p>
+								<input type="submit" data-text="login" class="button-one submit-button mt-15" name="auth_action" value="login" style="border: none;" />
+							</form>
+						</div>					
+					</div>
+					<div class="col-lg-6">
+						<div class="customer-login text-left">
+							<h4 class="title-1 title-border text-uppercase mb-30">new customers</h4>
+							<p class="text-gray">If you have an account with us, Please login!</p>
+							<form method="post">
+								{% csrf_token %}
+								<input type="text" placeholder="Your first name here..." name="fname" required>
+								<input type="text" placeholder="Your last name here..." name="lname" required>
+								<input type="text" placeholder="Email address here..." name="email"required>
+								<input type="password" placeholder="Password" name="password" id="password" required>
+								<div id="password-strength" style="margin-bottom: 10px;"></div>
+								<input type="password" placeholder="Confirm password" name="cpassword" required>
+								<input type="submit" data-text="register" class="button-one submit-button mt-15" name="auth_action" value="register" style="border: none;">
+							</form>
+							<p class="mt-20">Want to sell your product? <a href="{% url 'register_vendor' %}" class="text-gray">Register here</a> / <a href="{% url 'admin_login' %}" class="text-gray">Login here</a></p>
+						</div>					
+					</div>
+				</div>
+		</div>
+	</div>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var passwordInput = document.getElementById('password');
+			var passwordStrength = document.getElementById('password-strength');
+	
+			passwordInput.addEventListener('input', function () {
+				var strength = getPasswordStrength(passwordInput.value);
+				passwordStrength.innerHTML = strength.message;
+				passwordStrength.style.color = strength.color;
+			});
+	
+			function getPasswordStrength(password) {
+				var strength = { message: "", color: "" };
+				var regexes = [
+					/[a-z]/, // lowercase letter
+					/[A-Z]/, // uppercase letter
+					/[0-9]/, // digit
+					/[^A-Za-z0-9]/ // special character
+				];
+	
+				var passedTests = regexes.map(regex => regex.test(password)).filter(result => result).length;
+	
+				if (password.length < 8) {
+					strength.message = "Password too short";
+					strength.color = "red";
+				} else if (passedTests < 3) {
+					strength.message = "Weak password";
+					strength.color = "orange";
+				} else if (passedTests === 3) {
+					strength.message = "Medium strength password";
+					strength.color = "yellow";
+				} else {
+					strength.message = "Strong password";
+					strength.color = "green";
+				}
+	
+				return strength;
+			}
+		});
+	</script>
+	<!-- SHOPPING-CART-AREA END -->
+{% endblock %}

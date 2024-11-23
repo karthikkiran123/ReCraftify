@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cart_count_bloc %}
+    {{ cart_items }}
+{% endblock %}
+{% block content %}
+	<!-- HEADING-BANNER START -->
+	<div class="heading-banner-area overlay-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="heading-banner">
+						<div class="heading-banner-title">
+							<h2>Shop</h2>
+						</div>
+						<div class="breadcumbs pb-15">
+							<ul>
+								<li><a href="/">Home</a></li>
+								<li>Shop</li>
+								<li>{{category}}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- HEADING-BANNER END -->
+	<!-- PRODUCT-AREA START -->
+	<div class="product-area pt-80 pb-80 product-style-2">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 order-2 order-lg-1">
+					<!-- Widget-Search start -->
+					<aside class="widget widget-search mb-30">
+						<form action="" method="get">
+							<input type="text" placeholder="Search here..." name="q"/>
+							<button type="submit">
+								<i class="zmdi zmdi-search"></i>
+							</button>
+						</form>
+					</aside>
+					<!-- Widget-search end -->
+					<!-- Widget-Categories start -->
+					<aside class="widget widget-categories  mb-30">
+						<div class="widget-title">
+							<h4>Categories</h4>
+						</div>
+						<div id="cat-treeview"  class="widget-info product-cat boxscrol2">
+							<ul>
+								<li><a href="{% url 'products' 'new' %}"><span>New</span></a>
+									<!-- <ul>
+										<li><a href="#">T-Shirts</a></li>
+										<li><a href="#">Striped Shirts</a></li>
+										<li><a href="#">Half Shirts</a></li>
+										<li><a href="#">Formal Shirts</a></li>
+										<li><a href="#">Bilazers</a></li>
+									</ul> -->
+								</li>          
+								<li><a href="{% url 'products' 'used' %}"><span>Used</span></a>
+									<!-- <ul>
+										<li><a href="#">Men Bag</a></li>
+										<li><a href="#">Shoes</a></li>
+										<li><a href="#">Watch</a></li>
+										<li><a href="#">T-shirt</a></li>
+										<li><a href="#">Shirt</a></li>
+									</ul> -->
+								</li>          
+								<li><a href="{% url 'products' 'scrapyard' %}"><span>Scrapyard</span></a>
+									<!-- <ul>
+										<li><a href="#">T-Shirts</a></li>
+										<li><a href="#">Striped Shirts</a></li>
+										<li><a href="#">Half Shirts</a></li>
+										<li><a href="#">Formal Shirts</a></li>
+										<li><a href="#">Bilazers</a></li>
+									</ul> -->
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<!-- Widget-categories end -->
+					<!-- Shop-Filter start -->
+					<aside class="widget shop-filter mb-30">
+						<div class="widget-title">
+							<h4>Price</h4>
+						</div>
+						<div class="widget-info">
+							<div class="price_filter">
+								<div class="price_slider_amount">
+									<form action="" method="POST">
+										{% csrf_token %}
+										<label for="amount">Price :</label>
+										<input type="text" id="amount" name="price"  placeholder="Add Your Price" />
+										<div id="slider-range"></div></br>
+										<button type="submit" class="button-one style-2 text-uppercase mt-20" data-text="Apply">Apply</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</aside>
+					<!-- Shop-Filter end -->
+				</div>
+
+				<div class="col-lg-9 order-1 order-lg-2">
+					<!-- Shop-Content End -->
+					<div class="shop-content mt-tab-30 mb-30 mb-lg-0">
+						<div class="col-md-12">
+							<div class="product-option mb-30 clearfix">
+								<!-- Price start -->
+								<!-- <div class="dropdown floatleft">
+									<button class="option-btn" >
+									Price
+									</button>
+									<div class="dropdown-menu dropdown-width" >
+										<aside class="widget shop-filter">
+											<div class="widget-title">
+												<h4>Price</h4>
+											</div>
+											<div class="widget-info">
+												<div class="price_filter">
+													<div class="price_slider_amount">
+														<input type="submit"  value="You range :"/> 
+														<input type="text" id="amount" name="price"  placeholder="Add Your Price" /> 
+													</div>
+													<div id="slider-range"></div>
+												</div>
+											</div>
+										</aside>
+									</div>
+								</div>	 -->
+								<!-- Price end -->							
+								<div class="showing text-end">
+									<p class="mb-0 d-none d-md-block">Showing {{product_count}} Results</p>
+								</div>
+							</div>						
+						</div>	
+						<div class="col-md-12">
+							<div class="row">
+								<!-- Single-product start -->
+								{% for i in products %}
+									<div class="col-xl-3 col-md-4">
+										<div class="single-product">
+											<div class="product-img">
+												{% with created_date=i.created_at|date:"Y-m-d" %}
+													{% if created_date == current_date %}
+														<span class="pro-label new-label">new</span>
+													{% endif %}
+												{% endwith %}
+												{% with final_price=i.final_price %}
+													<span class="pro-price-2">₹ {{ final_price }}</span>
+												{% endwith %}
+												<a href="{% url 'product_detail' i.id %}"><img src="{{ i.image.url }}" alt="" /></a>
+											</div>
+											<div class="product-info clearfix text-center">
+												<div class="fix">
+													<h4 class="post-title"><a href="#">{{ i.name }}</a></h4>
+												</div>
+												<div class="fix">
+													<span class="pro-rating">
+														<a href="#"><i class="zmdi zmdi-star"></i></a>
+														<a href="#"><i class="zmdi zmdi-star"></i></a>
+														<a href="#"><i class="zmdi zmdi-star"></i></a>
+														<a href="#"><i class="zmdi zmdi-star-half"></i></a>
+														<a href="#"><i class="zmdi zmdi-star-half"></i></a>
+													</span>
+												</div>
+												<div class="product-action clearfix">
+													<!-- <a href="{% url 'watchlist_product' i.id %}" data-bs-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a> -->
+													<a href="{% url 'add_to_cart' i.id %}" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+								<!-- Single-product end -->
+							</div>
+						</div>
+					</div>
+					<!-- Shop-Content End -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- PRODUCT-AREA END -->
+{% endblock %}
